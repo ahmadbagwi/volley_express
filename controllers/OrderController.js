@@ -8,7 +8,40 @@ const { checkToken } = require('../utils/checkToken')
 // const { connect } = require('../routes')
 
 const findAvailable = async (req, res) => {
-
+  const validateToken = checkToken(req.header('Authorization').split(' ')[1])
+  const orderExisting = await prisma.order.findFirst({
+    where: {
+      date: req.body.date
+    },
+    select: {
+      date: true,
+      start: true,
+      end: true
+    }
+  })
+  let available = null
+  if (req.body.date == orderExisting.date) {
+    if (req.body.start <= orderExisting.start && req.body.end >= orderExisting.end) {
+      available = false
+    } else if (req.body.start >= orderExisting.start && req.body.end <= orderExisting.end) {
+      available = false
+    } else if (req.body.start >= orderExisting.start && req.body.end <= orderExisting.end) {
+      available = false
+    // } else if (req.body.start >= orderExisting.start && orderExisting.end <= req.body.end) {
+    //   available = false
+    // } 
+    } else if (req.body.start <= orderExisting.start && req.body.end <= orderExisting.start) {
+      available = true
+    } else if (req.body.start >= orderExisting.start && req.body.end >= orderExisting.end) {
+      available = true
+    }
+  } else {
+    available = true
+  }
+  res.status(200).send({
+    success: available,
+    message: available  ? 'Waktu yang dipilih tersedia' : 'Waktu yang dipilih tidak tersedia'
+})
 }
 
 const findOrders = async (req, res) => {
