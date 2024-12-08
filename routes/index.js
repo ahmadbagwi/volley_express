@@ -6,7 +6,7 @@ const { validateOrder, validateSignUp, validateLogin } = require('../utils/valid
 const OrderController = require('../controllers/OrderController')
 const UserController = require('../controllers/UserController')
 
-router.get('/check-available', OrderController.findAvailable)
+router.post('/check-available', OrderController.findAvailable)
 router.get('/orders', OrderController.findOrders)
 router.get('/orders-member/:id', OrderController.findOrdersByUserId)
 router.post('/order', validateOrder, OrderController.createOrder)
