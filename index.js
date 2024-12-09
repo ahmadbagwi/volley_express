@@ -1,6 +1,11 @@
 //import express
 const express = require("express");
 
+let corsOptions = {
+  origin: "*",
+};
+
+app.use(cors(corsOptions));
 //import router
 const router = require("./routes");
 const cors = require("cors");
@@ -14,12 +19,7 @@ const app = express();
 //define port
 const port = process.env.PORT;
 
-let corsOptions = {
-  origin: "*",
-};
-
 //use body parser
-app.use(cors(corsOptions));
 app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
