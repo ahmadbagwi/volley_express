@@ -226,7 +226,7 @@ const updateOrder = async (req, res) => {
       //update order
       const order = await prisma.order.update({
         where: {
-            id: id
+          id: id
         },
         data: {
           name: req.body.name,
@@ -234,7 +234,7 @@ const updateOrder = async (req, res) => {
           date: req.body.date,
           start: req.body.start,
           end: req.body.end,
-          amount: req.body.amount,
+          amount: parseInt(req.body.amount),
           receipt: req.body.receipt,
           status: req.body.status,
           updatedAt: new Date()
@@ -249,7 +249,7 @@ const updateOrder = async (req, res) => {
     } catch (error) {
       res.status(500).send({
         success: false,
-        message: "Internal server error"
+        message: `Internal server error ${error}`
       })
     }
 }
