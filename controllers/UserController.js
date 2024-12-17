@@ -20,6 +20,7 @@ const findUsers = async (req, res) => {
         email: true,
         phone: true,
         address: true,
+        role: true,
         createdAt: true
       },
       orderBy: {
@@ -70,7 +71,8 @@ const createUser = async (req, res) => {
           email: req.body.email,
           password: bcrypt.hashSync(req.body.password, salt),
           phone: req.body.phone,
-          address: req.body.address
+          address: req.body.address,
+          role: req.body.role
         }
       })
       res.status(201).send({
@@ -133,6 +135,7 @@ const loginUser = async (req, res) => {
       data: {
         userId: existingUser.id,
         email: existingUser.email,
+        role: existingUser.role,
         token: token
       },
     })
@@ -154,7 +157,8 @@ const findUserByEmail = async (email) => {
       select: {
         id: true,
         email: true,
-        password: true
+        password: true,
+        role: true
       }
     })
     return user
